@@ -11,7 +11,7 @@ import {
 import React, { useState } from 'react';
 import Loading from '../components/Loading';
 
-const LoginPage = () => {
+const LoginPage = ({navigation}) => {
   const [name, setName] = useState("");
   const [lastName, setLastname] = useState("");
   const [result, setResult] = useState('');
@@ -45,6 +45,13 @@ const LoginPage = () => {
         style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'blue' }, styles.button]}>
         <Text style={styles.buttonText}>GİRİŞ</Text>
       </Pressable>
+      <Pressable 
+        onPress={() => navigation.navigate('SignupPage')}
+        style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray',
+          marginTop:10
+         }, styles.kayitOlButton]}>
+        <Text style={styles.buttonText}>Kayıt Ol</Text>
+      </Pressable>
       {isLoading ? <Loading changeIsLoading={() => setIsLoading(false)} /> : null}
       <StatusBar style="auto" />
     </View>
@@ -71,6 +78,14 @@ const styles = StyleSheet.create({
   button: {
     borderWidth: 1,
     width: '80%',
+    height: 50,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  kayitOlButton:{
+    borderWidth: 1,
+    width: '30%',
     height: 50,
     borderRadius: 10,
     alignItems: 'center',
