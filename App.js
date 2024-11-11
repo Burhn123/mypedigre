@@ -1,16 +1,20 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+<<<<<<< HEAD
 import LoginPage from './src/screens/LoginPage';
 import SignupPage from './src/screens/SignupPage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Tanitim  from './src/screens/Tanitim'; //DENEME TANITIM SAYFASI
 
+=======
+import RootNavigation from './src/navigation/RootNavigation';
+>>>>>>> 9234c9ef55b84c9c6ba263e6fd5a316f7143bfef
 
-const Stack = createStackNavigator();
 
 const App = () => {
   return (
+<<<<<<< HEAD
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown:false}} >
         <Stack.Screen name='LoginPage' component={LoginPage} />
@@ -18,6 +22,9 @@ const App = () => {
         <Stack.Screen name='Tanitim' component={Tanitim} />      
       </Stack.Navigator>
     </NavigationContainer>
+=======
+   <RootNavigation/>
+>>>>>>> 9234c9ef55b84c9c6ba263e6fd5a316f7143bfef
   );
 };
 
