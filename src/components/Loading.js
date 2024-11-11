@@ -29,11 +29,8 @@ container:{
     backgroundColor:'red',
     alignItems:'center',
     justifyContent:'center',
-
-
 },
 loginText:{
-
     fontWeight:'bold',
     fontSize:16,
     color:'white',
@@ -51,20 +48,10 @@ closeButtonContainer:{
     position:'absolute',
     top:50,
     right:30
-
-
-
 },
 closeButon: {
-
     color:'white',
     fontWeight:'bold',
-    fontSize:16,
-
-
-    
-
+    fontSize:16, 
 }
-
-
 })

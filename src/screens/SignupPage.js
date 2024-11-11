@@ -14,4 +14,4 @@ const SignupPage =()=> {
 }
 
 export default SignupPage
-const style =StyleSheet.create({})
+const styles =StyleSheet.create({})
