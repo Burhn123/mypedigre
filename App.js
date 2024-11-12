@@ -7,16 +7,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Tanitim  from './src/screens/Tanitim'; //DENEME TANITIM SAYFASI
 
+import { createDrawerNavigator } from "@react-navigation/drawer"; // yeni ekledim
 
 import RootNavigation from './src/navigation/RootNavigation';
 
-
+// yeni eklendi
+// const Drawer = createDrawerNavigator();
 
 const App = () => {
   return (
-
-
-   <RootNavigation/>
+    <RootNavigation/>
   );
 };
 
