@@ -3,6 +3,7 @@ import SignupPage from "./SignupPage";
 import HomePage from "./HomePage";
 import ProfilePage from "./ProfilePage";
 import Tanitim from "./Tanitim";
+import Iletisim from "./Iletisim";
 
 
 
@@ -11,5 +12,6 @@ export {
     SignupPage,
     HomePage,
     ProfilePage,
-    Tanitim
+    Tanitim,
+    Iletisim
 }
