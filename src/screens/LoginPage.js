@@ -50,7 +50,7 @@ const LoginPage = ({navigation}) => {
 
       
       <Pressable 
-        onPress={() => navigation.navigate('SignupPage')}
+        onPress={() => navigation.navigate('Signup')}
         style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10
          }, styles.kayitOlButton]}>
         <Text style={styles.buttonText}>Kayıt Ol</Text>
@@ -58,19 +58,10 @@ const LoginPage = ({navigation}) => {
 
       <Pressable 
         onPress={() => navigation.navigate('Tanitim')}
-        style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10
+        style={({ pressed }) => [{ backgroundColor: pressed ? "pink" : 'lightpink', marginTop:10
          }, styles.tanitimButton]}>
         <Text style={styles.buttonText}>Tanıtım</Text>
       </Pressable>
-
-     
-
-
-      
-
-
-
-
       {isLoading ? <Loading changeIsLoading={() => setIsLoading(false)} /> : null}
       <StatusBar style="auto" />
     </View>
