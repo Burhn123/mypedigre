@@ -11,6 +11,10 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import Loading from '../components/Loading';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { Ionicons } from "@expo/vector-icons"; // Ionicons kullanarak ikonları ekleyeceğiz
+
 
 
 const LoginPage = ({navigation}) => {
@@ -23,33 +27,38 @@ const LoginPage = ({navigation}) => {
   return (
     <View style={styles.container}>
       
-
-      <Image
-         source={require('../../assets/image/download.jpg')}  // Giriş ekranı foto 
-        style={styles.image}/>                
-
-
-      <Text>Hoş Geldin {result}</Text>
-      <Text>Kullanıcı adı</Text>
-      <TextInput
-        keyboardType='email-address'
-        style={styles.textInputStyle}
-        placeholder='Kullanıcı adı giriniz'
-        onChangeText={setName}
-        value={name}
-        autoCapitalize='none'
-        autoCorrect={false}
-      />
-      <Text>Şifre</Text>
-      <TextInput
-        placeholder='Şifrenizi giriniz'
-        style={styles.textInputStyle}
-        onChangeText={setLastname}
-        value={lastName}
-        secureTextEntry={true}
-        autoCapitalize='none'
-        autoCorrect={false}
-      />
+{/*
+     <Image
+         source={require('../../assets/deneme.png')}  // Giriş ekranı foto 
+        style={styles.imageDeneme}/>   
+        */}
+      <MaterialCommunityIcons name="bird" size={50} color="blue" />
+      <Text style={styles.boldSize}>Hoş Geldin {result}</Text>
+      <View style={styles.inputContainer}>
+      <Text style={styles.boldSize} >Kullanıcı adı</Text>
+        <TextInput
+          keyboardType='email-address'
+          style={styles.textInputStyle}
+          placeholder='Kullanıcı adı giriniz'
+          onChangeText={setName}
+          value={name}
+          autoCapitalize='none'
+          autoCorrect={false}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+            <Text style={styles.boldSize}>Şifre</Text>
+            <TextInput
+              placeholder='Şifrenizi giriniz'
+              style={styles.textInputStyle}
+              onChangeText={setLastname}
+              value={lastName}
+              secureTextEntry={true}
+              autoCapitalize='none'
+              autoCorrect={false}
+            />
+      </View>
+    
       <Pressable 
         onPress={() => setIsLoading(true)}
         style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'blue' }, styles.button]}>
@@ -58,21 +67,17 @@ const LoginPage = ({navigation}) => {
 
       
       <Pressable 
-        onPress={() => navigation.navigate('SignupPage')}
+        onPress={() => navigation.navigate('kayitOl')}
         style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10
          }, styles.kayitOlButton]}>
         <Text style={styles.buttonText}>Kayıt Ol</Text>
       </Pressable>
-
       <Pressable 
         onPress={() => navigation.navigate('Tanitim')}
         style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10     //deneme Tanıtım sayfası 
          }, styles.tanitimButton]}>
         <Text style={styles.buttonText}>Tanıtım</Text>
       </Pressable>
-
-
-
       {isLoading ? <Loading changeIsLoading={() => setIsLoading(false)} /> : null}
       <StatusBar style="auto" />
     </View>
@@ -84,25 +89,33 @@ export default LoginPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EAD7D7',
+    backgroundColor: '#bed9ff',
     alignItems: 'center',
     justifyContent: 'center',
+
   },
-  textInputStyle: {
-    borderWidth: 1,
-    width: '80%',
-    height: 50,
-    borderRadius: 10,
-    marginVertical: 10,
-    textAlign: 'center'
+  inputContainer:{
+    width:'80%',
+  },
+  textInputStyle:{
+    borderBottomWidth:0.5,
+    width:'100%',
+    height:50,
+    borderRadius:10,
+    marginVertical:10,
+    textAlign:'center'
   },
   button: {
-    borderWidth: 1,
-    width: '80%',
-    height: 50,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderWidth:1,
+    width:'80%',
+    height:50,
+    borderRadius:10,
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  buttonText:{
+    fontWeight:'bold',
+    color:'white',
   },
   kayitOlButton:{
     borderWidth: 1,
@@ -111,15 +124,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-
-    
   },
-  buttonText: {
-    fontWeight: 'bold',
-    color: 'white',
-
-  },
-
     tanitimButton:{
     borderWidth: 1,
     width: '70%',                        //deneme ekran
@@ -127,18 +132,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-
     },
-
     image:{
       width:100,
       height:100,
-      
-
-
-    }
-
-
+    },
+    imageDeneme:{
+      width:'100%',
+      height:'100%',
+      position:'absolute',
+    },
+    boldSize:{
+      fontWeight:'bold',
+    },
 });
 
 /*
