@@ -7,6 +7,7 @@ import {
   TextInput,
   Pressable,
   Button,
+  Image,
 } from 'react-native';
 import React, { useState } from 'react';
 import Loading from '../components/Loading';
@@ -21,6 +22,13 @@ const LoginPage = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      
+
+      <Image
+         source={require('../../assets/image/download.jpg')}  // Giriş ekranı foto 
+        style={styles.image}/>                
+
+
       <Text>Hoş Geldin {result}</Text>
       <Text>Kullanıcı adı</Text>
       <TextInput
@@ -50,7 +58,7 @@ const LoginPage = ({navigation}) => {
 
       
       <Pressable 
-        onPress={() => navigation.navigate('Signup')}
+        onPress={() => navigation.navigate('SignupPage')}
         style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10
          }, styles.kayitOlButton]}>
         <Text style={styles.buttonText}>Kayıt Ol</Text>
@@ -58,10 +66,13 @@ const LoginPage = ({navigation}) => {
 
       <Pressable 
         onPress={() => navigation.navigate('Tanitim')}
-        style={({ pressed }) => [{ backgroundColor: pressed ? "pink" : 'lightpink', marginTop:10
+        style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10     //deneme Tanıtım sayfası 
          }, styles.tanitimButton]}>
         <Text style={styles.buttonText}>Tanıtım</Text>
       </Pressable>
+
+
+
       {isLoading ? <Loading changeIsLoading={() => setIsLoading(false)} /> : null}
       <StatusBar style="auto" />
     </View>
@@ -73,7 +84,7 @@ export default LoginPage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#EAD7D7',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -116,6 +127,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+
+    },
+
+    image:{
+      width:100,
+      height:100,
+      
+
 
     }
 
