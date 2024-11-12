@@ -11,7 +11,7 @@ import {
     Keyboard,
   } from "react-native";
   import React, { useState } from "react";
-  
+   
   const Iletisim = () => {
     const [konu, setKonu] = useState("");
     const [email, setEmail] = useState("");

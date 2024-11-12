@@ -15,7 +15,7 @@ const AuthStack = () =>{
             <Stack.Screen name="Iletisim" component={Iletisim} />
         </Stack.Navigator>
     )
-}
+} 
 
 export default AuthStack;
 

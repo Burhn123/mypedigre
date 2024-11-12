@@ -5,7 +5,7 @@ import ProfilePage from "./ProfilePage";
 import Tanitim from "./Tanitim";
 import Iletisim from "./Iletisim";
 
-
+ 
 
 export {
     LoginPage,

@@ -60,7 +60,7 @@ const Tanitim =({navigation})=> {
       Artık Tüm Pedigrelerinizi Cep Telefonundan, Tabletten, Bilgisayardan
       Ulaşabilir ve İndirebilirsiniz.
     </Text>
-
+ 
     <Pressable 
         onPress={() => navigation.navigate('Iletisim')}
         style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10
