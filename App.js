@@ -33,15 +33,23 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
+<<<<<<< Updated upstream
     <NavigationContainer> 
       <Stack.Navigator>
+=======
+
+    <NavigationContainer>
+      <Stack.Navigator >
+        
+
+>>>>>>> Stashed changes
         <Stack.Screen name='Login' component={LoginPage}/>
         <Stack.Screen name='SignupPage' component={SignupPage}/>
       </Stack.Navigator>
     </NavigationContainer>
     
-  )
-}
+  );
+};
 
 export default App
 
