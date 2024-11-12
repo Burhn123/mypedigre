@@ -1,9 +1,21 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+
+import LoginPage from './src/screens/LoginPage';
+import SignupPage from './src/screens/SignupPage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Tanitim  from './src/screens/Tanitim'; //DENEME TANITIM SAYFASI
+
+
 import RootNavigation from './src/navigation/RootNavigation';
+
+
 
 const App = () => {
   return (
+
+
    <RootNavigation/>
   );
 };
@@ -23,23 +35,15 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-<<<<<<< Updated upstream
     <NavigationContainer> 
       <Stack.Navigator>
-=======
-
-    <NavigationContainer>
-      <Stack.Navigator >
-        
-
->>>>>>> Stashed changes
         <Stack.Screen name='Login' component={LoginPage}/>
         <Stack.Screen name='SignupPage' component={SignupPage}/>
       </Stack.Navigator>
     </NavigationContainer>
     
-  );
-};
+  )
+}
 
 export default App
 
