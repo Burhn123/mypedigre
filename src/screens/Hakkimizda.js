@@ -21,7 +21,7 @@ const Hakkimizda = () => {
   };
 
   // Yönlendirme işlevi
-  const openLink = () => {
+  const openLink = (url) => {
     Linking.openURL(url).catch((err) =>
       console.error("Error opening URL:", err)
     );
