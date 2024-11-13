@@ -1,5 +1,5 @@
 import React from "react";
-import { LoginPage , SignupPage , Tanitim , Iletisim } from "../screens";
+import { LoginPage , SignupPage , Tanitim , Iletisim, } from "../screens";
 import { createStackNavigator } from '@react-navigation/stack';
 import { Settings } from "react-native";
 

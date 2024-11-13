@@ -14,6 +14,7 @@ const Fotograf = () => {
   const [imageUri, setImageUri] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [hasPermission, setHasPermission] = useState(false);
+ 
 
   // Kamera izni kontrolü
   const getCameraPermission = async () => {
@@ -70,6 +71,8 @@ const Fotograf = () => {
   };
 
   return (
+
+    
     <View style={styles.container}>
       {/* Sol üst butonlar */}
       <View style={styles.leftColumn}>
@@ -80,6 +83,15 @@ const Fotograf = () => {
           <Text style={styles.buttonText}>Fotoğraf Yükle</Text>
         </TouchableOpacity>
       </View>
+     
+      <View>
+
+      <Text style={styles.deneme}>                          
+        ÜRÜN GİRİNİZ:</Text> 
+      </View>
+
+
+  
       {/* Sağ üst önizleme */}
       <View style={styles.rightColumn}>
         <View style={styles.previewContainer}>
@@ -110,10 +122,16 @@ const Fotograf = () => {
           </TouchableOpacity>
           {imageUri && (
             <Image source={{ uri: imageUri }} style={styles.fullImage} />
+
           )}
         </View>
+
+       
+
       </Modal>
     </View>
+
+        
   );
 };
 
@@ -211,6 +229,16 @@ const styles = StyleSheet.create({
     height: "70%",
     resizeMode: "contain",
   },
+  deneme:
+  {
+    
+    justifyContent: "space-around",
+    width: "100%",
+    marginTop:200,
+    fontSize:30,
+    fontWeight:"bold"
+    
+  }
 });
 
 export default Fotograf;

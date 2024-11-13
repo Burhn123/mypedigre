@@ -6,7 +6,8 @@ import UserStack from "./UserStack";
 
 
  
-import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar} from "../screens";
+import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market} from "../screens";
+import Alisveris from "../screens/Alisveris";
 
 const Drawer = createDrawerNavigator(); // yeni ekledim
 // <AuthStack/> // asagıdaydı yularıya tasidim
@@ -27,6 +28,8 @@ const RootNavigation = () =>{
             <Drawer.Screen name="Fotograf" component={Fotograf} />
             <Drawer.Screen name="Hakkimizda" component={Hakkimizda} />
             <Drawer.Screen name="Guzergahlar" component={Guzergahlar} />
+            <Drawer.Screen name="Alisveris" component={Alisveris} />
+
             
             
 

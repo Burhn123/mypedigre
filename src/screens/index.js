@@ -7,6 +7,7 @@ import Iletisim from "./Iletisim";
 import Fotograf from "./Fotograf";
 import Hakkimizda from "./Hakkimizda";
 import Guzergahlar from "./Guzergahlar";
+import Alisveris from "./Alisveris";
 
 
 
@@ -27,7 +28,7 @@ export {
     Fotograf,
     Hakkimizda,
     Guzergahlar,
-    
+    Alisveris,
     
     
 }
