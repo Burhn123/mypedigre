@@ -2,10 +2,20 @@ import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage";
 import HomePage from "./HomePage";
 import ProfilePage from "./ProfilePage";
-import Tanitim from "./Tanitim";
+import Tanitim from "./Tanitim"; //deneme ekranı
 import Iletisim from "./Iletisim";
+import Fotograf from "./Fotograf";
+import Hakkimizda from "./Hakkimizda";
+import Guzergahlar from "./Guzergahlar";
 
- 
+
+
+
+
+
+
+
+
 
 export {
     LoginPage,
@@ -13,5 +23,11 @@ export {
     HomePage,
     ProfilePage,
     Tanitim,
-    Iletisim
+    Iletisim,
+    Fotograf,
+    Hakkimizda,
+    Guzergahlar,
+    
+    
+    
 }

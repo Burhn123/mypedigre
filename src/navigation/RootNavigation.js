@@ -4,7 +4,10 @@ import { createDrawerNavigator } from "@react-navigation/drawer"; // yeni ekledi
 import AuthStack from "./AuthStack";
 import UserStack from "./UserStack";
 
-import { LoginPage , SignupPage , Tanitim , Iletisim  } from "../screens";
+
+ 
+import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar} from "../screens";
+
 const Drawer = createDrawerNavigator(); // yeni ekledim
 // <AuthStack/> // asagıdaydı yularıya tasidim
 
@@ -21,6 +24,15 @@ const RootNavigation = () =>{
             <Drawer.Screen name="kayitOl" component={SignupPage} />
             <Drawer.Screen name="Iletisim" component={Iletisim} />
             <Drawer.Screen name="Tanitim" component={Tanitim} />
+            <Drawer.Screen name="Fotograf" component={Fotograf} />
+            <Drawer.Screen name="Hakkimizda" component={Hakkimizda} />
+            <Drawer.Screen name="Guzergahlar" component={Guzergahlar} />
+            
+            
+
+
+            
+            
           </Drawer.Navigator>
           
             : <UserStack/>

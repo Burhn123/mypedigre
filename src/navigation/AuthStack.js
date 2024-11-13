@@ -1,10 +1,12 @@
 import React from "react";
-import { LoginPage , SignupPage , Tanitim , Iletisim  } from "../screens";
+import { LoginPage , SignupPage , Tanitim , Iletisim } from "../screens";
 import { createStackNavigator } from '@react-navigation/stack';
 import { Settings } from "react-native";
 
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
+
+
 
 
 
@@ -18,6 +20,8 @@ const AuthStack = () =>{
             <Stack.Screen name="Signup" component={SignupPage} />
             <Stack.Screen name="Tanitim" component={Tanitim} />
             <Stack.Screen name="Iletisim" component={Iletisim} />
+            
+
             
         </Stack.Navigator>
 
