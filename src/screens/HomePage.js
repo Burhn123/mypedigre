@@ -1,10 +1,11 @@
-import { StyleSheet,Text,View,Button } from "react-native";
+import { StyleSheet,Text,View,Button,Pressable } from "react-native";
 import React from "react";
 import { collection, addDoc } from "firebase/firestore"; 
 import { db } from "../../firebaseConfig";
 
 
 const HomePage = () =>{
+
     const sendData =async()=>{
         try {
             const docRef = await addDoc(collection(db, "reactNativeLesson"), {
@@ -16,18 +17,18 @@ const HomePage = () =>{
           } catch (e) {
             console.error("Error adding document: ", e);
           }
-
-
     }
-
-
-
-
     return(
         <View style={styles.container}>
             <Text>HomePage</Text>
-            <Button title="Veri girisi" handleOnPress={sendData} />
-            
+            <Pressable
+                onPress={() => sendData()}
+                style={({ pressed }) => [
+                { backgroundColor: pressed ? "gray" : "lightgray", marginTop: 10 },
+                styles.tanitimButton
+                ]}  >
+                <Text >Kaydet</Text>
+            </Pressable>
         </View>
     )
 }

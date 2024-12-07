@@ -4,11 +4,12 @@ import { createDrawerNavigator } from "@react-navigation/drawer"; // yeni ekledi
 import AuthStack from "./AuthStack";
 import UserStack from "./UserStack";
 import app from '../../firebaseConfig';
+import { useSelector } from "react-redux";
 
 
  
 //import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market} from "../screens";
-import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market} from "../screens";
+import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market, HomePage} from "../screens";
 import Alisveris from "../screens/Alisveris";
 
 const Drawer = createDrawerNavigator(); // yeni ekledim
@@ -16,7 +17,7 @@ const Drawer = createDrawerNavigator(); // yeni ekledim
 
 const RootNavigation = () =>{
 
-    const isAuth = false;
+    const {isAuth} = useSelector((state)=>state.user);
 
     return(
       <NavigationContainer>
@@ -26,13 +27,16 @@ const RootNavigation = () =>{
             <Drawer.Screen name="Giris" component={LoginPage} />
             <Drawer.Screen name="kayitOl" component={SignupPage} />
             <Drawer.Screen name="Iletisim" component={Iletisim} />
+          </Drawer.Navigator>
+            : <Drawer.Navigator >
+            <Drawer.Screen name="Anasayfa" component={HomePage} />
+            <Drawer.Screen name="Iletisim" component={Iletisim} />
             <Drawer.Screen name="Tanitim" component={Tanitim} />
             <Drawer.Screen name="Fotograf" component={Fotograf} />
             <Drawer.Screen name="Hakkimizda" component={Hakkimizda} />
             <Drawer.Screen name="Guzergahlar" component={Guzergahlar} />
             <Drawer.Screen name="Alisveris" component={Alisveris} />
           </Drawer.Navigator>
-            : <UserStack/>
         }
       </NavigationContainer>
     )

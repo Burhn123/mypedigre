@@ -1,37 +1,26 @@
-import { StyleSheet, Text, View, Button } from "react-native";
-import React from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { initializeAuth , getReactNativePersistence } from "firebase/auth";
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage'
+import { getFirestore } from "firebase/firestore";
 
-const HomePage = () => {
-  const sendData = async () => {
-    try {
-      const docRef = await addDoc(collection(db, "reactNativeLesson"), {
-        title: "Zero to Hero",
-        content: "React Native tutorial for beginner",
-        lesson: 95,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
 
-  return (
-    <View style={styles.container}>
-      <Text>HomePage</Text>
-      {/* Buton Eklendi */}
-      <Button title="Send Data" onPress={sendData} />
-    </View>
-  );
+const firebaseConfig = {
+  apiKey: "AIzaSyC-EickVY9htkNatAMikYNV5wJ59o2KWMA",
+  authDomain: "mypedigre-b3a37.firebaseapp.com",
+  projectId: "mypedigre-b3a37",
+  storageBucket: "mypedigre-b3a37.firebasestorage.app",
+  messagingSenderId: "22484854534",
+  appId: "1:22484854534:web:83cc84c845278c8232e087",
+  measurementId: "G-F4M6ZB8CSH"
 };
 
-export default HomePage;
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = initializeAuth(app,{
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
 });
+export const db = getFirestore(app);
+
+export default app;

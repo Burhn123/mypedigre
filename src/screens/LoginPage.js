@@ -11,15 +11,17 @@ import {
 import React, { useState } from 'react';
 import Loading from '../components/Loading';
 
-import { setEmail, setPassword,setIsLoading,setLogin, login } from '../redux/userSlice';
+import { setIsLoading,setLogin, login } from '../redux/userSlice';
 import { useSelector , useDispatch } from 'react-redux';
 
 
 
 const LoginPage = ({navigation}) => {
 
-  const {email,password,isLoading} = useSelector((state)=>state.user);
-/* kapattim 6.12.2024
+  const {isLoading} = useSelector((state)=>state.user);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  /* kapattim 6.12.2024
   const [name, setName] = useState("");
   const [lastName, setLastname] = useState("");
   const [result, setResult] = useState('');
@@ -35,7 +37,7 @@ const LoginPage = ({navigation}) => {
         keyboardType="email-address"
         style={styles.textInputStyle}
         placeholder="Kullanıcı adı giriniz"
-        onChangeText={(text) => dispatch(setEmail(text))}
+        onChangeText={(text) => setEmail(text)}
         value={email || ""}
         autoCapitalize="none"
         autoCorrect={false}
@@ -44,7 +46,7 @@ const LoginPage = ({navigation}) => {
       <TextInput
         placeholder="Şifrenizi giriniz"
         style={styles.textInputStyle}
-        onChangeText={(text) => dispatch(setPassword(text))}
+        onChangeText={(text) => setPassword(text)}
         value={password || ""}
         secureTextEntry={true}
         autoCapitalize="none"
