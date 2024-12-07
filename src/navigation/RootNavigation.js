@@ -3,9 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from "@react-navigation/drawer"; // yeni ekledim
 import AuthStack from "./AuthStack";
 import UserStack from "./UserStack";
+import app from '../../firebaseConfig';
 
 
  
+//import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market} from "../screens";
 import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market} from "../screens";
 import Alisveris from "../screens/Alisveris";
 
@@ -29,18 +31,9 @@ const RootNavigation = () =>{
             <Drawer.Screen name="Hakkimizda" component={Hakkimizda} />
             <Drawer.Screen name="Guzergahlar" component={Guzergahlar} />
             <Drawer.Screen name="Alisveris" component={Alisveris} />
-
-            
-            
-
-
-            
-            
           </Drawer.Navigator>
-          
             : <UserStack/>
         }
-
       </NavigationContainer>
     )
 }

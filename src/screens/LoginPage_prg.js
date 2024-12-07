@@ -1,3 +1,4 @@
+
 import { StatusBar } from 'expo-status-bar';
 import { 
   StyleSheet, 
@@ -11,35 +12,35 @@ import {
 import React, { useState } from 'react';
 import Loading from '../components/Loading';
 
-import { setEmail, setPassword,setIsLoading,setLogin, login } from '../redux/userSlice';
-import { useSelector , useDispatch } from 'react-redux';
 
-
-
-const LoginPage = ({navigation}) => {
-
-  const {email,password,isLoading} = useSelector((state)=>state.user);
-/* kapattim 6.12.2024
+const LoginPage_org = ({navigation}) => {
   const [name, setName] = useState("");
   const [lastName, setLastname] = useState("");
   const [result, setResult] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-           */
+           
 
-  const dispatch = useDispatch();
   return (
-<View style={styles.container}>   
-      <Text>Hoş Geldin {/*result*/}</Text>
+    <View style={styles.container}>
+      
+
+                      
+
+      
+
+
+
+
+
+
+      <Text>Hoş Geldin {result}</Text>
       <Text>Kullanıcı adı</Text>
       <TextInput
         keyboardType='email-address'
         style={styles.textInputStyle}
         placeholder='Kullanıcı adı giriniz'
-        //onChangeText={setName}
-        //value={name}
-        onChange={(text)=>dispatch(setEmail(text.nativeEvent.text))}
-        //onChange={(text) => console.log(text.nativeEvent.text)}
-        value={email}
+        onChangeText={setName}
+        value={name}
         autoCapitalize='none'
         autoCorrect={false}
       />
@@ -47,25 +48,19 @@ const LoginPage = ({navigation}) => {
       <TextInput
         placeholder='Şifrenizi giriniz'
         style={styles.textInputStyle}
-        //onChangeText={setLastname}
-        //value={lastName}
-        onChange={(password)=>dispatch(setPassword(password))}
-        value={password}
+        onChangeText={setLastname}
+        value={lastName}
         secureTextEntry={true}
         autoCapitalize='none'
         autoCorrect={false}
       />
-     {/* <Pressable 
+      <Pressable 
         onPress={() => setIsLoading(true)}
         style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'blue' }, styles.button]}>
         <Text style={styles.buttonText}>GİRİŞ</Text>
       </Pressable>
-      */},
-       <Pressable 
-        onPress={() => dispatch(login({email,password}))}
-        style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'blue' }, styles.button]}>
-        <Text style={styles.buttonText}>GİRİŞ</Text>
-      </Pressable>
+
+      
       <Pressable 
         onPress={() => navigation.navigate('SignupPage')}
         style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10
@@ -79,13 +74,17 @@ const LoginPage = ({navigation}) => {
          }, styles.tanitimButton]}>
         <Text style={styles.buttonText}>Tanıtım</Text>
       </Pressable>
-      {isLoading ? <Loading changeIsLoading={() => dispatch(setIsLoading(false))} /> : null}
+
+
+
+      {isLoading ? <Loading changeIsLoading={() => setIsLoading(false)} /> : null}
       <StatusBar style="auto" />
     </View>
-    
   );
 }
-export default LoginPage;
+
+export default LoginPage_org;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -116,11 +115,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+
+    
   },
   buttonText: {
     fontWeight: 'bold',
     color: 'white',
+
   },
+
     tanitimButton:{
     borderWidth: 1,
     width: '70%',                        //deneme ekran
@@ -128,11 +131,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
+
     },
+
     image:{
       width:100,
       height:100,
+      
+
+
     }
+
+
 });
 
 /*
