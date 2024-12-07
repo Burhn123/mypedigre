@@ -98,6 +98,7 @@ const Fotograf = () => {
           {imageUri ? (
             <TouchableOpacity onPress={openImageModal}>
               <Image source={{ uri: imageUri }} style={styles.preview} />
+              
             </TouchableOpacity>
           ) : (
             <View style={styles.previewPlaceholder}>

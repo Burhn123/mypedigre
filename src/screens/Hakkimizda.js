@@ -35,6 +35,7 @@ const Hakkimizda = () => {
         
 
         {/* Açıklama metni */}
+        <View>
         <Text style={styles.description}>
           2016 yılında resmi olarak başlamış olduğumuz bu serüvene bir sevgi ve
           tutku ile nasıl daha iyisini yapabiliriz diye sürekli sınırlarımızı
@@ -44,6 +45,8 @@ const Hakkimizda = () => {
           organizasyon ve kapasite olarak en büyüklerden biriyiz. Derby16 FCI
           Grandprix'te yarışmak bir ayrıcalıktır...
         </Text>
+        </View>
+       
 
         {/* Sosyal medya ikonları */}
         <View style={styles.iconContainer}>

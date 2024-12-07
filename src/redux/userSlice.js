@@ -53,7 +53,7 @@ export const userSlice = createSlice({
         },
         setLogin:(state)=>{
             if((state.email === state.user.userEmail)
-                &&(state.password === state.user.userPassword)){
+                && (state.password === state.user.userPassword)){
                // console.log(true)
             }
             else{

@@ -60,7 +60,7 @@ const Guzergahlar = () => {
         <View key={index} style={styles.routeContainer}>
           <View
             style={
-              index % 2 === 0 ? styles.leftContainer : styles.rightContainer
+              index % 2 === <Text>0</Text> ? styles.leftContainer : styles.rightContainer
             }
           >
             <Text style={styles.title}>{route.title}</Text>

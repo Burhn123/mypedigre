@@ -63,7 +63,7 @@ const Alisveris = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>Ürün Ekle</Text>
+      <View><Text style={styles.header}>Ürün Ekle</Text></View>
 
       <TextInput
         style={styles.input}

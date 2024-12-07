@@ -28,61 +28,58 @@ const LoginPage = ({navigation}) => {
 
   const dispatch = useDispatch();
   return (
-<View style={styles.container}>   
-      <Text>Hoş Geldin {/*result*/}</Text>
+    <View style={styles.container}>
+      <Text>Hoş Geldin</Text>
       <Text>Kullanıcı adı</Text>
       <TextInput
-        keyboardType='email-address'
+        keyboardType="email-address"
         style={styles.textInputStyle}
-        placeholder='Kullanıcı adı giriniz'
-        //onChangeText={setName}
-        //value={name}
-        onChange={(text)=>dispatch(setEmail(text.nativeEvent.text))}
-        //onChange={(text) => console.log(text.nativeEvent.text)}
-        value={email}
-        autoCapitalize='none'
+        placeholder="Kullanıcı adı giriniz"
+        onChangeText={(text) => dispatch(setEmail(text))}
+        value={email || ""}
+        autoCapitalize="none"
         autoCorrect={false}
       />
       <Text>Şifre</Text>
       <TextInput
-        placeholder='Şifrenizi giriniz'
+        placeholder="Şifrenizi giriniz"
         style={styles.textInputStyle}
-        //onChangeText={setLastname}
-        //value={lastName}
-        onChange={(password)=>dispatch(setPassword(password))}
-        value={password}
+        onChangeText={(text) => dispatch(setPassword(text))}
+        value={password || ""}
         secureTextEntry={true}
-        autoCapitalize='none'
+        autoCapitalize="none"
         autoCorrect={false}
       />
-     {/* <Pressable 
-        onPress={() => setIsLoading(true)}
-        style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'blue' }, styles.button]}>
+      <Pressable
+        onPress={() => dispatch(login({ email, password }))}
+        style={({ pressed }) => [
+          { backgroundColor: pressed ? "gray" : "blue" },
+          styles.button
+        ]}
+      >
         <Text style={styles.buttonText}>GİRİŞ</Text>
       </Pressable>
-      */},
-       <Pressable 
-        onPress={() => dispatch(login({email,password}))}
-        style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'blue' }, styles.button]}>
-        <Text style={styles.buttonText}>GİRİŞ</Text>
-      </Pressable>
-      <Pressable 
-        onPress={() => navigation.navigate('SignupPage')}
-        style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10
-         }, styles.kayitOlButton]}>
+      <Pressable
+        onPress={() => navigation.navigate("SignupPage")}
+        style={({ pressed }) => [
+          { backgroundColor: pressed ? "gray" : "lightgray", marginTop: 10 },
+          styles.kayitOlButton
+        ]}
+      >
         <Text style={styles.buttonText}>Kayıt Ol</Text>
       </Pressable>
-
-      <Pressable 
-        onPress={() => navigation.navigate('Tanitim')}
-        style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10     //deneme Tanıtım sayfası 
-         }, styles.tanitimButton]}>
+      <Pressable
+        onPress={() => navigation.navigate("Tanitim")}
+        style={({ pressed }) => [
+          { backgroundColor: pressed ? "gray" : "lightgray", marginTop: 10 },
+          styles.tanitimButton
+        ]}
+      >
         <Text style={styles.buttonText}>Tanıtım</Text>
       </Pressable>
-      {isLoading ? <Loading changeIsLoading={() => dispatch(setIsLoading(false))} /> : null}
+      {isLoading && <Loading />}
       <StatusBar style="auto" />
     </View>
-    
   );
 }
 export default LoginPage;

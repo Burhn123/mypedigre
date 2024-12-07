@@ -44,20 +44,26 @@ const SignupPage = ({ navigation }) => {
     }
   };
 
+  
+
+
   return (
     <View style={styles.container}>
       
       <View style={styles.logoContainer}>
         <Image
-          // source={require('../../assets/images/adaptive-icon.png')}
           source={require('../../assets/image/download.jpg')} 
           style={styles.logo}
           resizeMode="contain"
         />
       </View>
 
-    
-      <Text style={styles.title}>Üye Ol</Text>
+      
+
+    <View>
+    <Text style={styles.title}>Üye Ol</Text>
+    </View>
+     
 
     
       <View style={styles.formWrapper}>
@@ -171,10 +177,12 @@ const SignupPage = ({ navigation }) => {
 
      
       <TouchableOpacity onPress={() => navigation.navigate("Giriş Yap")}>
+        <View>
         <Text style={styles.loginText}>
           Zaten hesabınız var mı?{" "}
           <Text style={styles.loginLink}>Giriş Yapın</Text>
         </Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
