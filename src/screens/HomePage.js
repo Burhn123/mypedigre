@@ -1,10 +1,14 @@
 import { StyleSheet,Text,View,Button,Pressable } from "react-native";
-import React from "react";
-import { collection, addDoc } from "firebase/firestore"; 
+import React,{useState} from "react";
+import { collection, addDoc,getDocs,doc,deleteDoc } from "firebase/firestore"; 
 import { db } from "../../firebaseConfig";
 
-
+// DATA  FIREBASE GÖNDER
 const HomePage = () =>{
+
+  const [data, setData] = useState([])
+
+  console.log("data: ", data)
 
     const sendData =async()=>{
         try {
@@ -17,18 +21,70 @@ const HomePage = () =>{
           } catch (e) {
             console.error("Error adding document: ", e);
           }
+
+
     }
+
+
+    //GET DATA FROM FIREBASE
+    
+    const getDate=async()=>{
+
+      const querySnapshot = await getDocs(collection(db, "reactNativeLesson"));
+        querySnapshot.forEach((doc) => {
+                 //console.log(`${doc.id} => ${doc.data()}`);
+           setData( [...data, doc.data() ] )
+                 
+                 
+});
+
+       
+        
+    }
+
+    //DELETE DATA FROM DATABASE
+
+
+
+
     return(
         <View style={styles.container}>
-            <Text>HomePage</Text>
+
+          
+            <Text style={styles.HosgeldınText}>HOŞGELDİN</Text>
+            <Text>{data[0].title}</Text>
+            <Text>{data[0].content}</Text>
+            <Text>{data[0].lesson}</Text>
+            <Text>{data[1].title}</Text>
+            <Text>{data[1].content}</Text>
+            <Text>{data[1].lesson}</Text>
+            
+
+            
+            
+            
             <Pressable
-                onPress={() => sendData()}
-                style={({ pressed }) => [
-                { backgroundColor: pressed ? "gray" : "lightgray", marginTop: 10 },
-                styles.tanitimButton
-                ]}  >
-                <Text >Kaydet</Text>
-            </Pressable>
+        onPress={()=>sendData()}
+        style={({ pressed }) => [
+          { backgroundColor: pressed ? "gray" : "pink" },
+          styles.button
+        ]}
+
+      >
+        <Text style={styles.buttonText}>VERİ KAYIT</Text>
+      </Pressable>
+
+      <Pressable
+        onPress={() => getDate()}
+        style={({ pressed }) => [
+          { backgroundColor: pressed ? "gray" : "lightblue" },
+          styles.button
+        ]}
+
+      >
+        <Text style={styles.buttonText}>GET DATA</Text>
+      </Pressable>
+
         </View>
     )
 }
@@ -40,6 +96,16 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent:"center",
         alignItems:"center"
+    },
+    HosgeldınText:{
+      width:10,
+      height:500,
+      color: "black",
+      fontWeight: "bold"
+      
+      
+      
+      
     }
 
    
