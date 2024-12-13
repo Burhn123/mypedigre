@@ -7,16 +7,23 @@ import {
   StyleSheet,
   Image,
   Alert,
+  ScrollView,
 } from "react-native";
+import { useDispatch , useSelector } from "react-redux";
+import { register } from "../redux/userSlice";
 import { Ionicons } from "@expo/vector-icons"; // Ionicons kullanarak ikonları ekleyeceğiz
+import Loading from "../components/Loading";
 
-const SignupPage = ({ navigation }) => {
+const SignupPage =({ navigation })=> {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("(+90)"); // Başlangıçta +90 sabit olacak
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const { isLoading , error } = useSelector(state=>state.user)
 
   // Üye ol fonksiyonu
   const handleSignUp = () => {
@@ -28,11 +35,22 @@ const SignupPage = ({ navigation }) => {
       password === "" ||
       confirmPassword === ""
     ) {
+      //console.log("girdi37")
       Alert.alert("Hata", "Lütfen tüm alanları doldurun!");
-    } else if (password !== confirmPassword) {
-      Alert.alert("Hata", "Şifreler uyuşmuyor!");
-    } else {
-      Alert.alert("Başarıyla Üye Oldunuz!", `Hoş geldiniz, ${firstName}!`);
+    }  else {
+      dispatch(register({email,password}))
+      console.log("isLoading",isLoading)
+      if(isLoading)
+      {
+        return <Loading/>
+        Alert.alert("Başarıyla Üye Oldunuz!", `Hoş geldiniz, ${firstName}!`);
+      }
+      else
+      {
+        //console.log(error);
+         Alert.alert(error);
+      }
+      
     }
   };
 
@@ -48,26 +66,15 @@ const SignupPage = ({ navigation }) => {
 
 
   return (
+    <ScrollView>
     <View style={styles.container}>
-      
       <View style={styles.logoContainer}>
-        <Image
-          source={require('../../assets/image/download.jpg')} 
-          style={styles.logo}
-          resizeMode="contain"
-        />
+       <Ionicons name="person-add" size={50} color="black" />
       </View>
-
-      
-
     <View>
     <Text style={styles.title}>Üye Ol</Text>
     </View>
-     
-
-    
       <View style={styles.formWrapper}>
-        
         <View style={styles.inputContainer}>
           <Ionicons
             name="person-outline"
@@ -83,7 +90,6 @@ const SignupPage = ({ navigation }) => {
             onChangeText={setFirstName}
           />
         </View>
-
         <View style={styles.inputContainer}>
           <Ionicons
             name="person-outline"
@@ -99,7 +105,6 @@ const SignupPage = ({ navigation }) => {
             onChangeText={setLastName}
           />
         </View>
-
         <View style={styles.inputContainer}>
           <Ionicons
             name="call-outline"
@@ -174,8 +179,6 @@ const SignupPage = ({ navigation }) => {
           <Text style={styles.buttonText}>Üye Ol</Text>
         </TouchableOpacity>
       </View>
-
-     
       <TouchableOpacity onPress={() => navigation.navigate("Giriş Yap")}>
         <View>
         <Text style={styles.loginText}>
@@ -185,6 +188,7 @@ const SignupPage = ({ navigation }) => {
         </View>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 
@@ -198,10 +202,11 @@ const styles = StyleSheet.create({
     paddingTop: 20, // Üstten boşluk, ekranı biraz yukarı al
   },
   logoContainer: {
-    marginBottom: 30, // Logo ile başlık arasına biraz daha boşluk
+    marginTop:50,
+    marginBottom: 20, // Logo ile başlık arasına biraz daha boşluk
   },
   logo: {
-    width: 100,
+    width: 150,
     height: 100,
   },
   title: {

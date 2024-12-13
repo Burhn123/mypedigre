@@ -36,6 +36,7 @@ const RootNavigation = () =>{
             <Drawer.Screen name="Hakkimizda" component={Hakkimizda} />
             <Drawer.Screen name="Guzergahlar" component={Guzergahlar} />
             <Drawer.Screen name="Alisveris" component={Alisveris} />
+            <Drawer.Screen name="kayitOl" component={SignupPage} />
           </Drawer.Navigator>
         }
       </NavigationContainer>

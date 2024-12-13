@@ -7,28 +7,39 @@ import {
   Pressable,
   Button,
   Image,
+  Alert,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 
-import { setIsLoading,setLogin, login } from '../redux/userSlice';
+import { setIsLoading,setLogin, login,autoLogin } from '../redux/userSlice';
 import { useSelector , useDispatch } from 'react-redux';
-
-
 
 const LoginPage = ({navigation}) => {
 
-  const {isLoading} = useSelector((state)=>state.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  /* kapattim 6.12.2024
-  const [name, setName] = useState("");
-  const [lastName, setLastname] = useState("");
-  const [result, setResult] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-           */
-
+  
+  const { isLoading , error } = useSelector((state)=>state.user);
   const dispatch = useDispatch();
+    // kullanici dah once giris yaptiysa kontrol et ve otomatik giris yap
+    useEffect(()=>{
+      dispatch(autoLogin())
+    },[])
+  
+
+  const handleLogin= () => {
+    dispatch(login({ email, password }))
+
+    //console.log("error",error)
+    if(error)
+    {
+      Alert.alert(error)
+    }
+    
+
+  }
+  
   return (
     <View style={styles.container}>
       <Text>Hoş Geldin</Text>
@@ -53,7 +64,8 @@ const LoginPage = ({navigation}) => {
         autoCorrect={false}
       />
       <Pressable
-        onPress={() => dispatch(login({ email, password }))}
+        //onPress={() => dispatch(login({ email, password }))}
+        onPress={handleLogin}
         style={({ pressed }) => [
           { backgroundColor: pressed ? "gray" : "blue" },
           styles.button
@@ -62,22 +74,13 @@ const LoginPage = ({navigation}) => {
         <Text style={styles.buttonText}>GİRİŞ</Text>
       </Pressable>
       <Pressable
-        onPress={() => navigation.navigate("SignupPage")}
+        onPress={() => navigation.navigate("kayitOl")}
         style={({ pressed }) => [
           { backgroundColor: pressed ? "gray" : "lightgray", marginTop: 10 },
           styles.kayitOlButton
         ]}
       >
         <Text style={styles.buttonText}>Kayıt Ol</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => navigation.navigate("Tanitim")}
-        style={({ pressed }) => [
-          { backgroundColor: pressed ? "gray" : "lightgray", marginTop: 10 },
-          styles.tanitimButton
-        ]}
-      >
-        <Text style={styles.buttonText}>Tanıtım</Text>
       </Pressable>
       {isLoading && <Loading />}
       <StatusBar style="auto" />

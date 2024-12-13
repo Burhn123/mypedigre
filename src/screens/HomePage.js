@@ -2,14 +2,22 @@ import { StyleSheet,Text,View,Button,Pressable } from "react-native";
 import React,{useState} from "react";
 import { collection, addDoc,getDocs,doc,deleteDoc,updateDoc } from "firebase/firestore"; 
 import { db } from "../../firebaseConfig";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/userSlice";
 
 // DATA  FIREBASE GÖNDER
 const HomePage = () =>{
 
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
-  console.log("data: ", data)
+  //console.log("data: ", data)
 
+    // kullanici cikis islemleri
+    const onPressCikis = () =>{
+        console.log("girdi")
+        dispatch(logout())
+    }
     const sendData =async()=>{
         try {
             const docRef = await addDoc(collection(db, "reactNativeLesson"), {
@@ -21,60 +29,34 @@ const HomePage = () =>{
           } catch (e) {
             console.error("Error adding document: ", e);
           }
-
-
     }
-
-
     //GET DATA FROM FIREBASE
-    
     const getDate=async()=>{
 
       const querySnapshot = await getDocs(collection(db, "reactNativeLesson"));
         querySnapshot.forEach((doc) => {
                  //console.log(`${doc.id} => ${doc.data()}`);
-           setData( [...data, doc.data() ] )
-                 
-                 
-});
-
-       
-        
+           setData( [...data, doc.data() ] )             
+    });
     }
-
     //DELETE DATA FROM DATABASE
     const deleteData=async()=>{
       await deleteDoc(doc(db,"reactNativeLesson","MumUEl54dzPXCzK1Gtb2"));
-
     }
-
-
     //Update Data From Databse
-
     const updateData =async()=>{
-  
       try {
       const lessonData = doc(db, "reactNativeLesson", "1sMxo5OYujZ9FTPwLKTX");
-
 // Set the "capital" field of the city 'DC'
         await updateDoc(lessonData, {
          lesson:145
-
 });
-
       } catch (error) {
         console.log(error)
-        
       }
-
     }
-
-
-
     return(
         <View style={styles.container}>
-
-          
             <Text style={styles.HosgeldınText}>HOŞGELDİN</Text>
             <Text>{data[0]?.title}</Text>
             <Text>{data[0]?.content}</Text>
@@ -82,56 +64,50 @@ const HomePage = () =>{
             <Text>{data[1]?.title}</Text>
             <Text>{data[1]?.content}</Text>
             <Text>{data[1]?.lesson}</Text>
-
-
-            
-
             <Pressable
         onPress={()=>sendData()}
         style={({ pressed }) => [
           { backgroundColor: pressed ? "gray" : "pink" },
           styles.button
         ]}
-
       >
         <Text style={styles.buttonText}>VERİ KAYIT</Text>
       </Pressable>
-
       <Pressable
         onPress={() => getDate()}
         style={({ pressed }) => [
           { backgroundColor: pressed ? "gray" : "lightblue" },
           styles.button
         ]}
-
       >
-        <Text style={styles.buttonText}>GET DATA</Text>
+    <Text style={styles.buttonText}>GET DATA</Text>
       </Pressable>
-
-
       <Pressable
         onPress={() => deleteData()}
         style={({ pressed }) => [
           { backgroundColor: pressed ? "gray" : "#A16BAA" },
           styles.button
         ]}
-
       >
         <Text style={styles.buttonText}>DELETE DATA</Text>
       </Pressable>
-
       <Pressable
         onPress={()=>updateData()}
         style={({ pressed }) => [
           { backgroundColor: pressed ? "gray" : "#1DD3B0" },
           styles.button
         ]}
-
       >
         <Text style={styles.buttonText}>Güncelleme</Text>
+        <View style={styles.cikisButton}>
+            <Button
+                onPress={()=>onPressCikis()}
+                title="çıkış"
+                color="red"
+                //accessibilityLabel="Learn more about this purple button"
+                />
+            </View>
       </Pressable>
-
-
         </View>
     )
 }
@@ -149,13 +125,10 @@ const styles = StyleSheet.create({
       height:450,
       color: "black",
       fontWeight: "bold"
-      
-      
-      
-      
+    },
+    cikisButton:{
+        position: 'absolute',
+        top: 20, // Üst kenardan mesafe
+        right: 20, // Sağ kenardan mesafe
     }
-
-   
-
-    
 })

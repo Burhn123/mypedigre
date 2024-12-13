@@ -68,9 +68,12 @@ const Tanitim =({navigation})=> {
         <Text style={styles.contactText}>Bize Ulaşın 2</Text>
       </Pressable>
     {/* En alttaki "Bize Ulaşın" linki */}
-    <Pressable  onPress={() => navigation.navigate('Signup')}>
-      <Text style={styles.contactText}>Bize Ulaşın</Text>
-    </Pressable>
+    <Pressable 
+        onPress={() => navigation.navigate('kayitOl')}
+        style={({ pressed }) => [{ backgroundColor: pressed ? "gray" : 'lightgray', marginTop:10
+         }, styles.kayitOlButton]}>
+        <Text style={styles.contactText}>Bize Ulaşın1</Text>
+      </Pressable>
   
   </View>
 );
