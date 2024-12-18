@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
  
 //import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market} from "../screens";
-import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market, HomePage,FotografGoster} from "../screens";
+import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market, HomePage} from "../screens";
 import Alisveris from "../screens/Alisveris";
 
 const Drawer = createDrawerNavigator(); // yeni ekledim
@@ -37,7 +37,6 @@ const RootNavigation = () =>{
             <Drawer.Screen name="Guzergahlar" component={Guzergahlar} />
             <Drawer.Screen name="Alisveris" component={Alisveris} />
             <Drawer.Screen name="kayitOl" component={SignupPage} />
-            <Drawer.Screen name="FotografGoster" component={FotografGoster} />
           </Drawer.Navigator>
         }
       </NavigationContainer>

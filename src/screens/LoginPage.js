@@ -25,9 +25,7 @@ const LoginPage = ({navigation}) => {
     // kullanici dah once giris yaptiysa kontrol et ve otomatik giris yap
     useEffect(()=>{
       dispatch(autoLogin())
-    },[]);
-    
-   
+    },[])
   
 
   const handleLogin= () => {
