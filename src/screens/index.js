@@ -9,14 +9,7 @@ import Fotograf from "./Fotograf";
 import Hakkimizda from "./Hakkimizda";
 import Guzergahlar from "./Guzergahlar";
 import Alisveris from "./Alisveris";
-
-
-
-
-
-
-
-
+import FotografGoster from "./FotografGoster";
 
 
 export {
@@ -30,6 +23,7 @@ export {
     Hakkimizda,
     Guzergahlar,
     Alisveris,
+    FotografGoster,
     
     
 }

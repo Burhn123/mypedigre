@@ -136,21 +136,28 @@ export const userSlice = createSlice({
             state.isAuth = true;
             state.user = action.payload.user;
             state.token = action.payload.token;
-
+            console.log("ERRORRR2222222------------",action.error);
+            state.error ="giris basarili";
+          
         })
         .addCase(login.rejected,(state,action)=>{
             state.isLoading = false;
             state.isAuth = false;
             //state.error = action.error.message;
             //state.error = "kullanıcı adı veya şifre hatalı";
-            if(action.error.code)
-                {
-                    state.error ="kullanıcı adı veya şifre hatalı";
-                }
-                else
-                {
-                    state.error ="giris basarili";
-                }
+
+            // hatali geldiginde action.error.code auth/invalid-email
+           console.log("ERRORRR------------",action.error)
+            if(action.error.code == "auth/invalid-email" )
+            {
+                console.log("if ici")
+                state.error ="kullanıcı adı veya şifre hatalı";
+            }
+            else
+            {
+                console.log(   "else ici")
+                state.error ="giris basarili";
+            }
         })
         .addCase(autoLogin.pending,(state)=>{
             state.isLoading = true;
@@ -175,11 +182,13 @@ export const userSlice = createSlice({
             state.isLoading = false;
             state.isAuth = false;
             state.token = null;
-            state.error = null;
+           // state.error = null;
+           state.error ="cikis basarili";
+          
         })
         .addCase(logout.rejected,(state, action)=>{
             state.isLoading = false;
-            state.error = action.payload;
+            //state.error = action.payload;
         })
         .addCase(register.pending,(state)=>{
            // console.log("register175")
