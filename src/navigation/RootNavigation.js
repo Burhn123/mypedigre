@@ -9,8 +9,10 @@ import { useSelector } from "react-redux";
 
  
 //import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market} from "../screens";
-import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market, HomePage} from "../screens";
+import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market,
+   HomePage,FotografGoster,Fotograf_old} from "../screens";
 import Alisveris from "../screens/Alisveris";
+import Cikis from "../components/Cikis";
 
 const Drawer = createDrawerNavigator(); // yeni ekledim
 // <AuthStack/> // asagıdaydı yularıya tasidim
@@ -37,6 +39,8 @@ const RootNavigation = () =>{
             <Drawer.Screen name="Guzergahlar" component={Guzergahlar} />
             <Drawer.Screen name="Alisveris" component={Alisveris} />
             <Drawer.Screen name="kayitOl" component={SignupPage} />
+            <Drawer.Screen name="FotografGoster" component={FotografGoster} options={{ headerTitle: () => <Cikis title="Fotoğraf Göster" /> }} />
+            <Drawer.Screen name="FotografOld" component={Fotograf_old} />
           </Drawer.Navigator>
         }
       </NavigationContainer>
