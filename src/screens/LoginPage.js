@@ -12,7 +12,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 
-import { setIsLoading,setLogin, login,autoLogin } from '../redux/userSlice';
+//import { setIsLoading,setLogin, login,autoLogin } from '../redux/userSlice';
+import { setIsLoading,setLogin, login } from '../redux/userSlice';
 import { useSelector , useDispatch } from 'react-redux';
 
 const LoginPage = ({navigation}) => {
@@ -23,11 +24,11 @@ const LoginPage = ({navigation}) => {
   const { isLoading , error } = useSelector((state)=>state.user);
   const dispatch = useDispatch();
     // kullanici dah once giris yaptiysa kontrol et ve otomatik giris yap
-    useEffect(()=>{
+   //kapattim
+   /* useEffect(()=>{
       dispatch(autoLogin())
-    },[])
-  
-
+    },[]);
+    */
   const handleLogin= () => {
     dispatch(login({ email, password }))
 
