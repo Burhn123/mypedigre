@@ -160,9 +160,9 @@ const GuvercinEkle = () => {
           
       } catch (err) {
          console.log("hata çıktı", err);
-      }
+      } 
   };
-  
+
     const handleCategorySelect = (category,istekYeri) => {
          if(istekYeri=="category")
        {
