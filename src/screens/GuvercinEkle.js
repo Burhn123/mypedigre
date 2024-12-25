@@ -15,7 +15,10 @@ import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import * as FileSystem from 'expo-file-system';
+import * as ImageManipulator from 'expo-image-manipulator';
+// user kullanıcı bilgisini eklemeye çalışıyorum
+import { useSelector , useDispatch } from 'react-redux';
 
 const GuvercinEkle = () => {
     const [productKunyeNo, setProductKunyeNo] = useState("");
@@ -30,7 +33,9 @@ const GuvercinEkle = () => {
     const [selectedAnne, setSelectedAnne] = useState();
     const [istek, setSelectedIstek] = useState([]);
     const [istekYeri, setSelectedIstekYeri] = useState("");
-    const [image, setImage] = useState(null);
+    //const [image, setImageUri] = useState(null);
+    const [imageUri, setImageUri] = useState(null);
+
     const [modalVisible, setModalVisible] = useState(false);
     const [categories, setCategories] = useState([]);
     const [femaleBird, setFemaleBird] = useState([]);
@@ -42,11 +47,14 @@ const GuvercinEkle = () => {
     const baba = ["baba"];
     const navigation = useNavigation();
 
+    const {user} = useSelector((state)=>state.user);
+    const userUid = user.uid; // giris yapan kullanici user_idsi
+
     useEffect(() => {
         fetchCategories();
         fetchFemaleBird();
         fetchMaleBird();
-    }, []);
+    }, [productKunyeNo]);
     useEffect(()=>{
         setSelectedCategory("Seçiniz");
         setSelectedCinsiyet("Seçiniz");
@@ -68,7 +76,7 @@ const GuvercinEkle = () => {
             setSelectedBaba("Seçiniz");
             setSelectedAnne("Seçiniz");
             setSelectedDogumYili("Seçiniz");
-            setImage(null);
+            setImageUri(null);
         });
         return unsubscribe;
     }, [navigation]);
@@ -104,20 +112,33 @@ const GuvercinEkle = () => {
         }
    };
 
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
+   const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1, // Başlangıç kalitesi
+    });
 
-        if (!result.canceled && result.assets && result.assets.length > 0) {
-            setImage(result.assets[0].uri);
-        } else {
-          Alert.alert("Resim seçimi iptal edildi");
-        }
+      if (!result.canceled) {
+         const manipResult = await ImageManipulator.manipulateAsync(
+            result.assets[0].uri,
+            [{ resize: { width: 800, height: 600 } }], // Yeniden boyutlandırma
+            { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG } // Sıkıştırma ve format
+          );
+        setImageUri(manipResult.uri);
+      }
     };
+    const imageToBase64 = async (uri) => {
+      try {
+          const base64 = await FileSystem.readAsStringAsync(uri, { encoding: 'base64' });
+          return base64;
+      } catch (error) {
+          console.error('Base64 dönüşümü hatası:', error);
+          Alert.alert('Hata', 'Fotoğraf Base64\'e çevrilemedi.');
+        throw error;
+      }
+  };
+
     const handleSubmit = async () => {
       if (!productKunyeNo || !productSahibi || !productDescription || !selectedCategory || !selectedCinsiyet || !selectedAnne || !selectedBaba) {
            Alert.alert(
@@ -131,17 +152,17 @@ const GuvercinEkle = () => {
     if(selectedCinsiyet=="Dişi")
     {
       const docRef = await addDoc(collection(db, "female_bird"), {
-        productId:2,
-        productKunyeNo: productKunyeNo,
-        productSahibi: productSahibi,
-        productGuvercinAdi:productGuvercinAdi,
-        productKanHatti: productKanHatti,
-        productRenk: productRenk,
-        productDescription: productDescription,
-        selectedCategory: selectedCategory,
-        selectedCinsiyet: selectedCinsiyet,
-        selectedBaba: selectedBaba,
-        selectedAnne: selectedAnne
+        id:2,
+        kunye_no: productKunyeNo,
+        sahip: productSahibi,
+        ad:productGuvercinAdi,
+        kan_hatti: productKanHatti,
+        renk: productRenk,
+        aciklama: productDescription,
+        category: selectedCategory,
+        cinsiyet: selectedCinsiyet,
+        baba_adi: selectedBaba,
+        anne_adi: selectedAnne
   });
      console.log("Document written with ID: ", docRef.id);
       Alert.alert("Başarılı", "Ürün başarıyla eklendi!");
@@ -155,9 +176,60 @@ const GuvercinEkle = () => {
       setSelectedCinsiyet("Seçiniz");
       setSelectedBaba("Seçiniz");
       setSelectedAnne("Seçiniz");
-      setImage(null);
+      setImageUri(null);
     }
+    else
+    {  //  erkek geldiyse 
+      const docRef = await addDoc(collection(db, "male_bird"), {
+        id:2,
+        kunye_no: productKunyeNo,
+        sahip: productSahibi,
+        ad:productGuvercinAdi,
+        kan_hatti: productKanHatti,
+        renk: productRenk,
+        aciklama: productDescription,
+        category: selectedCategory,
+        cinsiyet: selectedCinsiyet,
+        baba_adi: selectedBaba,
+        anne_adi: selectedAnne
+  });
+     console.log("Document written with ID: ", docRef.id);
+      Alert.alert("Başarılı", "Ürün başarıyla eklendi!");
+      setProductKunyeNo("");
+      setProductSahibi("");
+      setProductGuvercinAdi("");
+      setProducKanHatti("");
+      setProducRenk("");
+      setProductDescription("");
+      setSelectedCategory("Seçiniz");
+      setSelectedCinsiyet("Seçiniz");
+      setSelectedBaba("Seçiniz");
+      setSelectedAnne("Seçiniz");
+      setImageUri(null);
+    }
+    //fotograflarida kuslarin idsine gore eklesi
           
+//////////////// fotograf ekleme islem icin deneme yapiuorum
+      if(imageUri){
+      try{
+        const base64Data = await imageToBase64(imageUri);
+        console.log("Base64 verisi:", base64Data.length, "byte");
+
+        const docRef = await addDoc(collection(db, "images"), {
+          kunye_no:productKunyeNo,
+          title: "image",
+          content: base64Data,
+          user_id:userUid
+      });
+      //  navigation.navigate('FotografGoster', { base64Data });
+        console.log("Document written with ID: ", docRef.id);
+      }catch(err){
+        console.log("hata çıktı",err);
+      }
+      }else{
+      Alert.alert("Hata","Lütfen önce fotoğraf çekin veya yükleyin");
+      }
+      //////////////////////////////////////////////
       } catch (err) {
          console.log("hata çıktı", err);
       } 
@@ -242,28 +314,24 @@ const GuvercinEkle = () => {
                 placeholder="Sahibi"
                 value={productSahibi}
                 onChangeText={setProductSahibi}
-               keyboardType="numeric"
            />
             <TextInput
                 style={styles.input}
                 placeholder="Guvercin Adı"
                 value={productGuvercinAdi}
                 onChangeText={setProductGuvercinAdi}
-                keyboardType="numeric"
             />
             <TextInput
                 style={styles.input}
                 placeholder="Kan Hatti"
                 value={productKanHatti}
                onChangeText={setProducKanHatti}
-               keyboardType="numeric"
             />
            <TextInput
                style={styles.input}
                placeholder="Renk"
                 value={productRenk}
                onChangeText={setProducRenk}
-               keyboardType="numeric"
             />
             <TextInput
                 style={styles.textArea}
@@ -339,7 +407,7 @@ const GuvercinEkle = () => {
                 <TouchableOpacity style={styles.button} onPress={pickImage}>
                     <Text style={styles.buttonText}>Resim Seç</Text>
                 </TouchableOpacity>
-              {image && <Image source={{ uri: image }} style={styles.imagePreview} />}
+              {imageUri && <Image source={{ uri: imageUri }} style={styles.imagePreview} />}
             </View>
             <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                 <Text style={styles.buttonText}>Ürünü Ekle</Text>

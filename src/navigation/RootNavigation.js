@@ -10,12 +10,14 @@ import { useSelector } from "react-redux";
  
 //import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market} from "../screens";
 import { LoginPage , SignupPage , Tanitim , Iletisim , Fotograf, Hakkimizda,Guzergahlar,Market,
-   HomePage,FotografGoster,Fotograf_old,} from "../screens";
+   HomePage,FotografGoster,Fotograf_old} from "../screens";
 
 import Alisveris from "../screens/Alisveris";
 import Cikis from "../components/Cikis";
 import GuvercinEkle from "../screens/GuvercinEkle";
-
+import KusSecim from "../screens/KusSecim";
+import SoyAgaci from "../screens/Soyagaci";
+import denemeSoyagaci from "../screens/denemeSoyagaci";
 const Drawer = createDrawerNavigator(); // yeni ekledim
 // <AuthStack/> // asagıdaydı yularıya tasidim
 
@@ -44,6 +46,9 @@ const RootNavigation = () =>{
             <Drawer.Screen name="FotografGoster" component={FotografGoster} options={{ headerTitle: () => <Cikis title="Fotoğraf Göster" /> }} />
             <Drawer.Screen name="FotografOld" component={Fotograf_old} />
             <Drawer.Screen name="GuvercinEkle" component={GuvercinEkle} />
+            <Drawer.Screen name="Soyagaci" component={SoyAgaci} />
+            <Drawer.Screen name="denemeSoyagaci" component={denemeSoyagaci} />
+            <Drawer.Screen name="KusSecim" component={KusSecim} />
           </Drawer.Navigator>
         }
       </NavigationContainer>
