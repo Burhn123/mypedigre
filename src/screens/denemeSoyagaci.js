@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { DataTable } from 'react-native-paper';
-import { View, Button, Alert } from 'react-native';
+import { View, Button, Alert, Modal, StyleSheet,TouchableOpacity } from 'react-native';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import * as Print from 'react-native-print';
+import { WebView } from 'react-native-webview';
 
 const denemeSoyagaci = () => {
     const [loading, setLoading] = useState(false);
@@ -13,6 +13,8 @@ const denemeSoyagaci = () => {
     const [kuslar, setKuslar] = useState([]);
     const [isKuslarLoaded, setIsKuslarLoaded] = useState(false);
     const navigation = useNavigation();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [printHTML, setPrintHTML] = useState('');
 
     const [page, setPage] = useState(0);
     const [numberOfItemsPerPageList] = useState([2, 3, 4]);
@@ -53,67 +55,95 @@ const denemeSoyagaci = () => {
     setPage(0);
   }, [itemsPerPage]);
 
-    const generateSoyAgaciHTML = async (kunyeNo) => {
-        const soyAgaci = await generateSoyAgaciData(kunyeNo);
-      if (!soyAgaci || soyAgaci.length === 0) {
-        return "<p>Soy ağacı bilgisi bulunamadı.</p>";
-      }
-         let htmlContent = `
-         <html>
-         <head>
-          <style>
-           body { font-family: sans-serif; }
-             ul { list-style-type: none; padding-left: 20px; }
-              li { margin-bottom: 5px; }
-          </style>
-         </head>
-        <body>
-         <h1> ${kunyeNo} Kuşunun Soy Ağacı</h1>
-         `;
+  const generateSoyAgaciHTML = async (kunyeNo) => {
+  
+    try{
+      const soyAgaci = await generateSoyAgaciData(kunyeNo);
+       if (!soyAgaci || soyAgaci.length === 0) {
+           return "<p>Soy ağacı bilgisi bulunamadı.</p>";
+       }
+           let htmlContent = `
+           <html>
+               <head>
+                   <style>
+                   body { 
+                      font-family: sans-serif; 
+                       padding-top: 70px; /* Üstten boşluk */
+                      }
+                   ul { list-style-type: none; padding-left: 20px; }
+                   li { margin-bottom: 10px; }
+                   </style>
+               </head>
+               <body>
+                   <h1> Kunye No: ${kunyeNo}</h1>
+               `;
 
-     const renderSoyAgaciHTML = (kus, level = 0) => {
-       if (!kus) return "";
+            const renderSoyAgaciHTML = (kus, level = 0) => {
+                if (!kus) return "";
 
-         const indentation = '&nbsp;'.repeat(level * 4);
-           let html =  `
-             <li>
-             ${indentation} Ad: ${kus.ad}
-             ${kus.anne ? `<ul><li>${indentation}&nbsp;├── Anne: ${kus.anne.ad}</li>` : ''}
-             ${kus.baba ? `<li>${indentation}&nbsp;└── Baba: ${kus.baba.ad}</li></ul>` : ''}
-             </li>`;
-         if(kus.anne) html += renderSoyAgaciHTML(kus.anne, level+1);
-         if(kus.baba) html += renderSoyAgaciHTML(kus.baba, level+1);
-           return html;
-      };
+                   const indentation = '&nbsp;'.repeat(level * 4);
+                   let html =  `
+                       <li>
+                           ${indentation} Ad: ${kus.ad}
+                       ${kus.anne ? `<ul><li>${indentation}&nbsp;├── Anne: ${kus.anne.ad}</li>` : ''}
+                       ${kus.baba ? `<li>${indentation}&nbsp;└── Baba: ${kus.baba.ad}</li></ul>` : ''}
+                       </li>`;
+                   if(kus.anne) html += renderSoyAgaciHTML(kus.anne, level+1);
+                   if(kus.baba) html += renderSoyAgaciHTML(kus.baba, level+1);
+                       return html;
+               };
 
-      soyAgaci.forEach((item) => {
-          htmlContent +=  `<ul>${renderSoyAgaciHTML(item)}</ul>`
-       });
+                soyAgaci.forEach((item) => {
+                       htmlContent +=  `<ul>${renderSoyAgaciHTML(item)}</ul>`
+                });
 
-        htmlContent +=  `</body></html>`;
-        return htmlContent;
-
-    };
+                 htmlContent +=  `</body></html>`;
+            return htmlContent;
+  }catch (error) {
+    console.error("HTML oluşturulurken hata:", error);
+      return "<p>Soy ağacı bilgisi oluşturulurken bir hata oluştu.</p>";
+  }
+};
 
    const handlePrint = async (kunyeNo) => {
-       setLoading(true);
+         setLoading(true);
        try {
         const html = await generateSoyAgaciHTML(kunyeNo);
          if(html){
-          await Print.printAsync({ html });
-         }else {
+           setPrintHTML(html);
+           setIsModalVisible(true);
+          }else {
          Alert.alert("Hata", "Yazdırma işlemi için HTML oluşturulamadı.");
-         }
-      } catch (error) {
-        console.error("Yazdırma hatası:", error);
-         Alert.alert("Hata", "Yazdırma işlemi sırasında bir hata oluştu.");
+        }
+        } catch (error) {
+            console.error("Yazdırma hatası:", error);
+           Alert.alert("Hata", "Yazdırma işlemi sırasında bir hata oluştu.");
       } finally {
-          setLoading(false);
-      }
+         setLoading(false);
+     }
     };
 
+    const handleWebViewLoad = (kunyeNo) => {
+      /*
+        Alert.alert(
+            'Yazdırma',
+            `"${kunyeNo}" künyeli kuşun soy ağacını yazdırmak istiyor musunuz?`,
+            [
+                {
+                    text: 'Vazgeç',
+                    style: 'cancel',
+                    onPress: () =>  setIsModalVisible(false)
+                },
+                {
+                    text: 'Yazdır',
+                    onPress: () => setIsModalVisible(false)
+                },
+            ],
+             );
+             */
 
-    const generateSoyAgaciData = async (kunyeNo) => {
+    };
+   const generateSoyAgaciData = async (kunyeNo) => {
         setLoading(true);
         try {
             const soyAgaciList = [];
@@ -188,7 +218,6 @@ const denemeSoyagaci = () => {
         }
     };
 
-
    const fetchKusByKunyeNo = async (kunyeNo, collectionName) => {
          console.log("fetchKusByKunyeNo çağrıldı:", kunyeNo, " collection:", collectionName);
            try {
@@ -239,39 +268,55 @@ const denemeSoyagaci = () => {
          }
    };
 
+    return (
+        <View style={{ flex: 1 }}>
+          <Modal
+                visible={isModalVisible}
+                animationType="slide"
+                onRequestClose={() => setIsModalVisible(false)}
+                
+            >
+                 <View style={{ flex: 1 }}>
+                    <WebView
+                      source={{ html: printHTML }}
+                        onLoad={() => handleWebViewLoad(selectedKus)}
+                     />
+                        
+                 </View>
+           </Modal>
+            <DataTable>
+                <DataTable.Header>
+                    <DataTable.Title>Ad</DataTable.Title>
+                    <DataTable.Title>Anne Ad</DataTable.Title>
+                    <DataTable.Title>Baba Ad</DataTable.Title>
+                    <DataTable.Title>Kunye No</DataTable.Title>
+                </DataTable.Header>
 
-  return (
-    <DataTable>
-      <DataTable.Header>
-        <DataTable.Title>Ad</DataTable.Title>
-        <DataTable.Title>Anne Ad</DataTable.Title>
-        <DataTable.Title>Baba Ad</DataTable.Title>
-        <DataTable.Title>Kunye No</DataTable.Title>
-      </DataTable.Header>
+                {kuslar.slice(from, to).map((item) => (
+                    <DataTable.Row key={item.kunye_no}>
+                        <DataTable.Cell>{item.ad}</DataTable.Cell>
+                        <DataTable.Cell>{item.anne_adi}</DataTable.Cell>
+                        <DataTable.Cell>{item.baba_adi}</DataTable.Cell>
+                        <DataTable.Cell>
+                            <Button title="Yazdır" onPress={() => handlePrint(item.kunye_no)} />
+                        </DataTable.Cell>
+                    </DataTable.Row>
+                ))}
 
-      {kuslar.slice(from, to).map((item) => (
-        <DataTable.Row key={item.kunye_no}>
-          <DataTable.Cell>{item.ad}</DataTable.Cell>
-          <DataTable.Cell>{item.anne_adi}</DataTable.Cell>
-          <DataTable.Cell>{item.baba_adi}</DataTable.Cell>
-          <DataTable.Cell>
-            <Button title="Yazdır" onPress={() => handlePrint(item.kunye_no)} />
-          </DataTable.Cell>
-        </DataTable.Row>
-      ))}
-
-      <DataTable.Pagination
-        page={page}
-        numberOfPages={Math.ceil(kuslar.length / itemsPerPage)}
-        onPageChange={(page) => setPage(page)}
-        label={`${from + 1}-${to} of ${kuslar.length}`}
-        numberOfItemsPerPageList={numberOfItemsPerPageList}
-        numberOfItemsPerPage={itemsPerPage}
-        onItemsPerPageChange={onItemsPerPageChange}
-        showFastPaginationControls
-        selectPageDropdownLabel={'Rows per page'}
-      />
-    </DataTable>
-  );
+                <DataTable.Pagination
+                    page={page}
+                    numberOfPages={Math.ceil(kuslar.length / itemsPerPage)}
+                    onPageChange={(page) => setPage(page)}
+                    label={`${from + 1}-${to} of ${kuslar.length}`}
+                    numberOfItemsPerPageList={numberOfItemsPerPageList}
+                    numberOfItemsPerPage={itemsPerPage}
+                    onItemsPerPageChange={onItemsPerPageChange}
+                    showFastPaginationControls
+                    selectPageDropdownLabel={'Rows per page'}
+                />
+            </DataTable>
+        </View>
+    );
 };
+
 export default denemeSoyagaci;
