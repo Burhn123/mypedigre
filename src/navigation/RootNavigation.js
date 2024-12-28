@@ -15,6 +15,8 @@ import SoyAgaci from "../screens/Soyagaci";
 import denemeSoyagaci from "../screens/denemeSoyagaci";
 import deneme from "../screens/deneme";
 import Chat from "../screens/Chat";
+import Vitrin from "../screens/Vitrin";
+
 
 const Drawer = createDrawerNavigator();
 
@@ -69,6 +71,7 @@ const CustomDrawerContent = (props) => {
                     )}
                     onPress={() => props.navigation.navigate('Güzergahlar')}
                 />
+                
                 <DrawerItem
                     label="Alışveriş"
                     icon={({ color, size }) => (
@@ -104,19 +107,30 @@ const CustomDrawerContent = (props) => {
                     )}
                     onPress={() => props.navigation.navigate('Kuş Seçim')}
                 />
-                <DrawerItem
-                    label="deneme"
-                    icon={({ color, size }) => (
-                        <Ionicons name="code-slash" size={size} color={color} />
-                    )}
-                    onPress={() => props.navigation.navigate('deneme')}
-                />
+
                 <DrawerItem
                     label="Chat"
                     icon={({ color, size }) => (
-                        <Ionicons name="chatbubble" size={size} color={color} />
+                        <Ionicons name="paw" size={size} color={color} />
                     )}
                     onPress={() => props.navigation.navigate('Chat')}
+                /> 
+                <DrawerItem
+                    label="Vitrin"
+                    icon={({ color, size }) => (
+                        <Ionicons name="paw" size={size} color={color} />
+                    )}
+                    onPress={() => props.navigation.navigate('Vitrin')}
+                />
+
+                                  
+
+                <DrawerItem
+                    label="deneme"
+                    icon={({ color, size }) => (
+                        <Ionicons name="product" size={size} color={color} />
+                    )}
+                    onPress={() => props.navigation.navigate('deneme')}
                 />
             </PaperDrawer.Section>
         </DrawerContentScrollView>
@@ -166,7 +180,8 @@ const RootNavigation = () => {
                     <Drawer.Screen name="Kuş Seçim" component={KusSecim} />
                     <Drawer.Screen name="deneme" component={deneme} />
                     <Drawer.Screen name="Chat" component={Chat} />
-
+                    <Drawer.Screen name="Vitrin" component={Vitrin} />
+                    
                 </Drawer.Navigator>
             )}
         </NavigationContainer>

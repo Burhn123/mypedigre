@@ -23,7 +23,12 @@ const Alisveris = () => {
   const [selectedCategory, setSelectedCategory] = useState("KATEGORİ");
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
+  
+  // Yeni eklenen state'ler
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  
   const categories = ["Elektronik", "Giyim", "Yiyecek", "Ev Eşyaları"];
 
   const pickImage = async () => {
@@ -42,7 +47,15 @@ const Alisveris = () => {
   };
 
   const handleSubmit = () => {
-    if (!productName || !productPrice || !productDescription || !image) {
+    if (
+      !productName ||
+      !productPrice ||
+      !productDescription ||
+      !image ||
+      !name ||
+      !surname ||
+      !phoneNumber
+    ) {
       Alert.alert(
         "Eksik bilgiler",
         "Lütfen tüm alanları doldurduğunuzdan emin olun."
@@ -56,6 +69,10 @@ const Alisveris = () => {
       description: productDescription,
       category: selectedCategory,
       imageUri: image,
+      // Yeni eklenen veriler
+      sellerName: name,
+      sellerSurname: surname,
+      sellerPhoneNumber: phoneNumber,
     })
       .then((docRef) => {
         Alert.alert("Başarılı", "Ürün başarıyla eklendi! ID: " + docRef.id);
@@ -64,6 +81,9 @@ const Alisveris = () => {
         setProductDescription("");
         setSelectedCategory("KATEGORİ");
         setImage(null);
+        setName("");
+        setSurname("");
+        setPhoneNumber("");
       })
       .catch((error) => {
         Alert.alert("Hata", "Bir hata oluştu: " + error.message);
@@ -84,6 +104,32 @@ const Alisveris = () => {
         <View>
           <Text style={styles.header}>Ürün Ekle</Text>
         </View>
+
+        {/* Kullanıcı Adı, Soyadı ve Telefon Alanları */}
+        <TextInput
+          style={styles.input}
+          placeholder="Adınız"
+          value={name}
+          onChangeText={setName}
+          placeholderTextColor="#6c757d"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Soyadınız"
+          value={surname}
+          onChangeText={setSurname}
+          placeholderTextColor="#6c757d"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Telefon Numaranız"
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          keyboardType="phone-pad"
+          placeholderTextColor="#6c757d"
+        />
 
         <TextInput
           style={styles.input}
