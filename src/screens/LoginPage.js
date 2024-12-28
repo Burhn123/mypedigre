@@ -5,229 +5,154 @@ import {
   View,
   TextInput,
   Pressable,
-  Button,
-  Image,
   Alert,
+  ImageBackground
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsLoading, setLogin, login } from '../redux/userSlice';
 import Loading from '../components/Loading';
 
-//import { setIsLoading,setLogin, login,autoLogin } from '../redux/userSlice';
-import { setIsLoading,setLogin, login } from '../redux/userSlice';
-import { useSelector , useDispatch } from 'react-redux';
-
 const LoginPage = ({navigation}) => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
-  const { isLoading , error } = useSelector((state)=>state.user);
+
+  const { isLoading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-    // kullanici dah once giris yaptiysa kontrol et ve otomatik giris yap
-   //kapattim
-   /* useEffect(()=>{
-      dispatch(autoLogin())
-    },[]);
-    */
-  const handleLogin= () => {
-    dispatch(login({ email, password }))
 
-    //console.log("error",error)
-    if(error)
-    {
-      Alert.alert(error)
+  const handleLogin = () => {
+    dispatch(login({ email, password }));
+    if (error) {
+      Alert.alert(error);
     }
-    
+  };
 
-  }
-  
   return (
-    <View style={styles.container}>
-      <Text>Hoş Geldin</Text>
-      <Text>Kullanıcı adı</Text>
-      <TextInput
-        keyboardType="email-address"
-        style={styles.textInputStyle}
-        placeholder="Kullanıcı adı giriniz"
-        onChangeText={(text) => setEmail(text)}
-        value={email || ""}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <Text>Şifre</Text>
-      <TextInput
-        placeholder="Şifrenizi giriniz"
-        style={styles.textInputStyle}
-        onChangeText={(text) => setPassword(text)}
-        value={password || ""}
-        secureTextEntry={true}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <Pressable
-        //onPress={() => dispatch(login({ email, password }))}
-        onPress={handleLogin}
-        style={({ pressed }) => [
-          { backgroundColor: pressed ? "gray" : "blue" },
-          styles.button
-        ]}
-      >
-        <Text style={styles.buttonText}>GİRİŞ</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => navigation.navigate("kayitOl")}
-        style={({ pressed }) => [
-          { backgroundColor: pressed ? "gray" : "lightgray", marginTop: 10 },
-          styles.kayitOlButton
-        ]}
-      >
-        <Text style={styles.buttonText}>Kayıt Ol</Text>
-      </Pressable>
-      {isLoading && <Loading />}
-      <StatusBar style="auto" />
-    </View>
+    <ImageBackground
+      source={{ uri: 'https://static.vecteezy.com/system/resources/previews/010/008/086/non_2x/background-dimension-3d-graphic-message-board-for-text-and-message-design-line-shadow-for-modern-web-design-free-vector.jpg' }}  // Arka plan resmi
+      style={styles.backgroundImage}
+    >
+      <View style={styles.container}>
+        <Text style={styles.welcomeText}>Hoş Geldin</Text>
+        
+        <Text style={styles.inputLabel}>Kullanıcı Adı</Text>
+        <TextInput
+          keyboardType="email-address"
+          style={styles.textInputStyle}
+          placeholder="Kullanıcı adı giriniz"
+          onChangeText={(text) => setEmail(text)}
+          value={email || ""}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        
+        <Text style={styles.inputLabel}>Şifre</Text>
+        <TextInput
+          placeholder="Şifrenizi giriniz"
+          style={styles.textInputStyle}
+          onChangeText={(text) => setPassword(text)}
+          value={password || ""}
+          secureTextEntry={true}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+
+        <Pressable
+          onPress={handleLogin}
+          style={({ pressed }) => [
+            { backgroundColor: pressed ? "#4f81bd" : "#006b93" },
+            styles.button
+          ]}
+        >
+          <Text style={styles.buttonText}>GİRİŞ</Text>
+        </Pressable>
+
+        {/* Kayıt Ol Butonu */}
+        <Pressable
+          onPress={() => navigation.navigate("kayitOl")}
+          style={({ pressed }) => [
+            { backgroundColor: pressed ? "#ff8a00" : "#f57c00" },
+            styles.registerButton
+          ]}
+        >
+          <Text style={styles.buttonText}>Kayıt Ol</Text>
+        </Pressable>
+
+        {isLoading && <Loading />}
+        
+        <StatusBar style="auto" />
+      </View>
+    </ImageBackground>
   );
-}
+};
+
 export default LoginPage;
+
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',  // Fotoğrafın ekranda tam görünmesi için
+  },
   container: {
     flex: 1,
-    backgroundColor: '#EAD7D7',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',  // İçeriğin net görünmesi için sayfa elemanlarına opaklık ekledik
+    borderRadius: 15,
+  },
+  welcomeText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#006b93',
+  },
+  inputLabel: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#333',
+    alignSelf: 'flex-start',
+    marginBottom: 5,
+    marginLeft: 10,
   },
   textInputStyle: {
     borderWidth: 1,
-    width: '80%',
+    width: '100%',
     height: 50,
-    borderRadius: 10,
+    borderRadius: 12,
+    paddingHorizontal: 15,
     marginVertical: 10,
-    textAlign: 'center'
+    backgroundColor: '#fff',
+    borderColor: '#ddd',
+    fontSize: 16,
   },
   button: {
-    borderWidth: 1,
-    width: '80%',
+    width: '100%',
     height: 50,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
   },
-  kayitOlButton:{
-    borderWidth: 1,
-    width: '30%',
+  registerButton: {
+    width: '100%',
     height: 50,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
   },
   buttonText: {
     fontWeight: 'bold',
     color: 'white',
+    fontSize: 18,
   },
-    tanitimButton:{
-    borderWidth: 1,
-    width: '70%',                        //deneme ekran
-    height: 50,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    },
-    image:{
-      width:100,
-      height:100,
-    }
 });
-
-/*
-import { StatusBar } from 'expo-status-bar';
-import { 
-  StyleSheet, 
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  Button,
-   } from 'react-native';
-
-   import React, {useState} from 'react';
-   import Loading from '../components/Loading'
-
-const LoginPage =()=> {
-  const [name,setName] = useState("")
-  const [lastName,setLastname] = useState("")
-  const [result,setResult] =useState('');
-  const [isLoading,setIsLoading]=useState(false)
-
-  return (
-    <View style={styles.container}>
-      <Text>Hos Geldin {result}</Text>
-      <Text>Kullanıcı adı</Text>
-      <TextInput
-      inputMode='email'
-      style={styles.textInputStyle}
-      placeholder='Kullanıcı adı giriniz'
-      onChangeText={setName}
-      value={name}
-      />
-      <Text>Şifre</Text>
-      <TextInput
-      placeholder='şifrenizi giriniz'
-      style={styles.textInputStyle}
-      onChangeText={setLastname}
-      value={lastName}
-      secureTextEntry={true}
-      />
-      <Pressable 
-        onPress={()=>setIsLoading(true)}
-        style={({pressed}) => [{backgroundColor:pressed ?"gray": 'blue'},styles.button]}>
-        <Text style={styles.buttonText}> GİRİS</Text>
-      </Pressable>
-        {isLoading ? <Loading name="" changeIsLoading={()=>setIsLoading(false)}/> :null }
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-export default LoginPage;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-  },
-  textInputStyle:{
-    borderWidth:1,
-    width:'80%',
-    height:50,
-    borderRadius:10,
-    marginVertical:10,
-    textAlign:'center'
-  },
-
-  button: {
-    borderWidth:1,
-    width:'80%',
-    height:50,
-    borderRadius:10,
-    alignItems:'center',
-    justifyContent:'center',
-    
-
-  },
-
-  buttonText:{
-    fontWeight:'bold',
-    color:'white',
-
-  }
-  
-
-  
-
-  
-});
-
-*/

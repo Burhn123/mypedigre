@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 const Guzergahlar = () => {
   const routes = [
@@ -57,86 +57,70 @@ const Guzergahlar = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.verticalLine} />
       {routes.map((route, index) => (
-        <View key={index} style={styles.routeContainer}>
-          <View
-            style={
-              index % 2 === <Text>0</Text> ? styles.leftContainer : styles.rightContainer
-            }
-          >
-            <Text style={styles.title}>{route.title}</Text>
-            <Text style={styles.distance}>{route.distance}</Text>
-            {route.rewards.map((reward, i) => (
-              <Text key={i} style={styles.reward}>
-                {reward}
-              </Text>
-            ))}
-            <Text style={styles.note}>{route.note}</Text>
-          </View>
+        <View key={index} style={styles.card}>
+          <Text style={styles.title}>{route.title}</Text>
+          <Text style={styles.distance}>{route.distance}</Text>
+          {route.rewards.map((reward, i) => (
+            <Text key={i} style={styles.reward}>
+              {reward}
+            </Text>
+          ))}
+          <Text style={styles.note}>{route.note}</Text>
         </View>
       ))}
-      {/* Bu satırın sonunu görünebilir hale getirmek için */}
-      <View style={styles.endSpace} />
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1, // ScrollView'un tüm alanı kapsamasını sağlıyor
+    flexGrow: 1,
     padding: 20,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    paddingBottom: 20, // ScrollView'un alt kısmına boşluk ekledim
+    backgroundColor: "#f9f9f9",
   },
   verticalLine: {
     position: "absolute",
     width: 2,
     height: "100%",
-    backgroundColor: "#000",
+    backgroundColor: "#e0e0e0",
     left: "50%",
-    transform: [{ translateX: +10 }],
+    transform: [{ translateX: -1 }],
   },
-  routeContainer: {
-    position: "relative",
-    marginVertical: 70,
-    width: "100%",
-  },
-  leftContainer: {
-    position: "absolute",
-    left: 0,
-    width: "45%",
-    alignItems: "flex-start",
-    paddingLeft: 20,
-  },
-  rightContainer: {
-    position: "absolute",
-    right: 0,
-    width: "45%",
-    alignItems: "flex-start",
-    paddingLeft: 20,
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    padding: 20,
+    marginVertical: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    width: "90%",
+    alignSelf: "center",
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
+    color: "#333",
     marginBottom: 5,
   },
   distance: {
-    fontSize: 20,
-    marginBottom: 5,
-    fontWeight: "bold",
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#666",
+    marginBottom: 10,
   },
   reward: {
-    fontSize: 18,
-    marginBottom: 2,
-    fontWeight: "bold",
+    fontSize: 16,
+    color: "#444",
+    marginBottom: 5,
   },
   note: {
-    fontSize: 16,
+    fontSize: 14,
     fontStyle: "italic",
-    marginTop: 5,
-  },
-  endSpace: {
-    height: 80, // Alt kısmı tamamen görünür yapmak için boşluk ekledim
+    color: "#888",
+    marginTop: 10,
   },
 });
 
