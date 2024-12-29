@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,21 +15,29 @@ import * as ImagePicker from "expo-image-picker";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { MaterialIcons } from "@expo/vector-icons";
+import { getAuth } from "firebase/auth"; // Firebase Authentication
 
 const Alisveris = () => {
   const [productName, setProductName] = useState("");
+  const [userId, setUserId] = useState(null);
   const [productPrice, setProductPrice] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("KATEGORİ");
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  
-  // Yeni eklenen state'ler
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  
+  const [firstName, setFirstName] = useState("");  // New state for first name
+  const [lastName, setLastName] = useState("");    // New state for last name
+  const [phone, setPhone] = useState("");          // New state for phone number
+
   const categories = ["Elektronik", "Giyim", "Yiyecek", "Ev Eşyaları"];
+
+  useEffect(() => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      setUserId(user.uid);
+    }
+  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -47,15 +55,7 @@ const Alisveris = () => {
   };
 
   const handleSubmit = () => {
-    if (
-      !productName ||
-      !productPrice ||
-      !productDescription ||
-      !image ||
-      !name ||
-      !surname ||
-      !phoneNumber
-    ) {
+    if (!productName || !productPrice || !productDescription || !image || !firstName || !lastName || !phone) {
       Alert.alert(
         "Eksik bilgiler",
         "Lütfen tüm alanları doldurduğunuzdan emin olun."
@@ -69,10 +69,10 @@ const Alisveris = () => {
       description: productDescription,
       category: selectedCategory,
       imageUri: image,
-      // Yeni eklenen veriler
-      sellerName: name,
-      sellerSurname: surname,
-      sellerPhoneNumber: phoneNumber,
+      userId: userId,
+      firstName: firstName,    // Save first name
+      lastName: lastName,      // Save last name
+      phone: phone,            // Save phone number
     })
       .then((docRef) => {
         Alert.alert("Başarılı", "Ürün başarıyla eklendi! ID: " + docRef.id);
@@ -81,9 +81,9 @@ const Alisveris = () => {
         setProductDescription("");
         setSelectedCategory("KATEGORİ");
         setImage(null);
-        setName("");
-        setSurname("");
-        setPhoneNumber("");
+        setFirstName("");       // Clear first name
+        setLastName("");        // Clear last name
+        setPhone("");           // Clear phone
       })
       .catch((error) => {
         Alert.alert("Hata", "Bir hata oluştu: " + error.message);
@@ -97,39 +97,15 @@ const Alisveris = () => {
 
   return (
     <ImageBackground
-      source={{ uri: "https://cdn.pixabay.com/photo/2023/03/15/20/46/background-7855413_1280.jpg" }}
+      source={{
+        uri: "https://cdn.pixabay.com/photo/2023/03/15/20/46/background-7855413_1280.jpg",
+      }}
       style={styles.backgroundImage}
     >
       <ScrollView contentContainerStyle={styles.container}>
         <View>
           <Text style={styles.header}>Ürün Ekle</Text>
         </View>
-
-        {/* Kullanıcı Adı, Soyadı ve Telefon Alanları */}
-        <TextInput
-          style={styles.input}
-          placeholder="Adınız"
-          value={name}
-          onChangeText={setName}
-          placeholderTextColor="#6c757d"
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Soyadınız"
-          value={surname}
-          onChangeText={setSurname}
-          placeholderTextColor="#6c757d"
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Telefon Numaranız"
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          keyboardType="phone-pad"
-          placeholderTextColor="#6c757d"
-        />
 
         <TextInput
           style={styles.input}
@@ -155,6 +131,31 @@ const Alisveris = () => {
           onChangeText={setProductDescription}
           multiline
           numberOfLines={4}
+          placeholderTextColor="#6c757d"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Adınız"
+          value={firstName}
+          onChangeText={setFirstName}
+          placeholderTextColor="#6c757d"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Soyadınız"
+          value={lastName}
+          onChangeText={setLastName}
+          placeholderTextColor="#6c757d"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Telefon Numaranız"
+          value={phone}
+          onChangeText={setPhone}
+          keyboardType="phone-pad"
           placeholderTextColor="#6c757d"
         />
 

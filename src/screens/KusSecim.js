@@ -17,7 +17,7 @@ const KusSecim = ({ route }) => {
     const fetchKuslar = async () => {
         try {
             const femaleRef = collection(db, "female_bird");
-            const maleRef = collection(db, "male_bird");
+            const maleRef = collection(db, "male_bird");a
             const femaleSnap = await getDocs(femaleRef);
             const maleSnap = await getDocs(maleRef);
             const allKuslar = [];

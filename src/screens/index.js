@@ -12,6 +12,7 @@ import Alisveris from "./Alisveris";
 import FotografGoster from "./FotografGoster";
 import Fotograf_old from "./Fotograf_old";
 import KusSecim from "./KusSecim";
+import denemeSoyagaci from "./denemeSoyagaci";
 
 export {
     LoginPage,
@@ -27,4 +28,5 @@ export {
     FotografGoster,
     Fotograf_old,
     KusSecim,
+    denemeSoyagaci,
 }

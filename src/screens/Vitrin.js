@@ -10,8 +10,8 @@ const Vitrin = () => {
   const [selectedCategory, setSelectedCategory] = useState('All'); // Seçilen kategori
   const [modalVisible, setModalVisible] = useState(false); // Modal görünürlüğü
   const [selectedSeller, setSelectedSeller] = useState(null); // Seçilen satıcı
-  const [imageModalVisible, setImageModalVisible] = useState(false); // Yeni Modal durumu
-  const [selectedImageUri, setSelectedImageUri] = useState(''); // Tıklanan görselin uri'si
+  const [imageModalVisible, setImageModalVisible] = useState(false); // Fotoğraf Modal Görünürlüğü
+  const [selectedImageUri, setSelectedImageUri] = useState(null); // Seçilen fotoğraf URI'si
 
   useEffect(() => {
     fetchProducts();
@@ -49,13 +49,13 @@ const Vitrin = () => {
     setModalVisible(true); // Modalı göster
   };
 
-  const handleRefresh = () => {
-    fetchProducts(); // Yeni ürünleri al ve listeyi güncelle
+  const handleImagePress = (imageUri) => {
+    setSelectedImageUri(imageUri); // Seçilen fotoğraf URI'sini ayarla
+    setImageModalVisible(true); // Fotoğraf modalını göster
   };
 
-  const handleImagePress = (uri) => {
-    setSelectedImageUri(uri);
-    setImageModalVisible(true); // Görsel tıklanırsa modalı göster
+  const handleRefresh = () => {
+    fetchProducts(); // Yeni ürünleri al ve listeyi güncelle
   };
 
   return (
@@ -123,9 +123,9 @@ const Vitrin = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <Text style={styles.modalTitle}>Satıcı Bilgileri</Text>
-              <Text style={styles.modalText}>Ad: {selectedSeller.sellerName}</Text>
-              <Text style={styles.modalText}>Soyad: {selectedSeller.sellerSurname}</Text>
-              <Text style={styles.modalText}>Telefon: {selectedSeller.sellerPhoneNumber}</Text>
+              <Text style={styles.modalText}>Ad: {selectedSeller.firstName}</Text>
+              <Text style={styles.modalText}>Soyad: {selectedSeller.lastName}</Text>
+              <Text style={styles.modalText}>Telefon: {selectedSeller.phone}</Text>
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={() => setModalVisible(false)}
@@ -137,23 +137,24 @@ const Vitrin = () => {
         </Modal>
       )}
 
-      {/* Image Enlarge Modal */}
-      {imageModalVisible && (
+      {/* Fotoğrafı büyük olarak gösteren Modal */}
+      {selectedImageUri && (
         <Modal
           visible={imageModalVisible}
+          animationType="fade"
           transparent={true}
           onRequestClose={() => setImageModalVisible(false)}
         >
           <View style={styles.imageModalContainer}>
             <TouchableOpacity
-              style={styles.imageModalClose}
+              style={styles.imageModalCloseButton}
               onPress={() => setImageModalVisible(false)}
             >
-              <Text style={styles.imageModalCloseText}>X</Text>
+              <Text style={styles.imageModalCloseText}>Kapat</Text>
             </TouchableOpacity>
             <Image
               source={{ uri: selectedImageUri }}
-              style={styles.enlargedImage}
+              style={styles.imageModal}
             />
           </View>
         </Modal>
@@ -302,23 +303,25 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
-  enlargedImage: {
-    width: '90%',
-    height: '80%',
-    resizeMode: 'contain',
-  },
-  imageModalClose: {
+  imageModalCloseButton: {
     position: 'absolute',
     top: 30,
     right: 30,
     backgroundColor: '#e91e63',
-    padding: 10,
-    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    zIndex: 1,
   },
   imageModalCloseText: {
     color: '#fff',
     fontWeight: 'bold',
+  },
+  imageModal: {
+    width: '80%',
+    height: '80%',
+    resizeMode: 'contain',
   },
 });
